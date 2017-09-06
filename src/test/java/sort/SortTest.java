@@ -1,5 +1,7 @@
 package sort;
 
+import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import util.SortUtils;
 
@@ -31,7 +33,14 @@ public class SortTest {
 //        SortUtils.sortTester(new int[] {4, 1, 2, 3}, MergeSort::sort);
 //        SortUtils.sortTester(new int[] {6, 5, 1, 2, 3}, MergeSort::sort);
 
-        SortUtils.sortTester(MergeSort::sort, 50);
+        SortUtils.sortTester(MergeSort::sort);
     }
 
+    @Test
+    @Ignore
+    public void testMerge() {
+        int[] array = new int[] { 4, 5, 7, 9, 10, 11, 12,   1, 2, 3, 6, 8};
+        MergeSort.merge(array, 0, 6, 11);
+        Assert.assertTrue(SortUtils.isSorted(array));
+    }
 }

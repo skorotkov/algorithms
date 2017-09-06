@@ -37,4 +37,10 @@ public class SortUtils {
         Arrays.sort(sorted);
         Assert.assertArrayEquals("sort " + array.length + " elements array", sorted, sorter.apply(array));
     }
+
+    public static boolean isSorted(int[] array) {
+        int[] sorted = Arrays.copyOf(array, array.length);
+        Arrays.sort(sorted);
+        return Arrays.equals(sorted, array);
+    }
 }

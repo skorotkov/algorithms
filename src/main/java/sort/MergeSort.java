@@ -7,9 +7,11 @@ import java.util.Queue;
 public class MergeSort {
 
     private static Queue<Integer> queue = new LinkedList<>();
-    private static void merge(int[] array, int start, int pivot, int end) {
-        int[] debug = Arrays.copyOfRange(array, start, end);
-        try {
+//    private static int maxQueueLength = 0;
+    public static void merge(int[] array, int start, int pivot, int end) {
+//        int[] debug = Arrays.copyOfRange(array, start, end+1);
+//        assert(queue.peek() == null);
+//        try {
 
             int insertPos = start;
             int highIndex = pivot + 1;
@@ -25,10 +27,14 @@ public class MergeSort {
                     if (array[insertPos] <= array[highIndex]) {
                         insertPos++;
                     } else {
-                        queue.add(array[insertPos]);
-                        array[insertPos] = array[highIndex];
-                        insertPos++;
-                        highIndex++;
+                        if (insertPos <= pivot) {
+                            queue.add(array[insertPos]);
+                            array[insertPos] = array[highIndex];
+                            insertPos++;
+                            highIndex++;
+                        } else {
+                            insertPos = end + 1;
+                        }
                     }
                 } else {
                     if (queue.element() <= array[highIndex]) {
@@ -45,11 +51,12 @@ public class MergeSort {
                     }
                 }
             } while (insertPos <= end);
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            System.out.println("start: " + start + " pivot: " + pivot + " end: " + end);
-            System.out.println(Arrays.toString(debug));
-            throw ex;
-        }
+//        } catch (ArrayIndexOutOfBoundsException ex) {
+//            System.out.println("start: " + start + " pivot: " + pivot + " end: " + end);
+//            System.out.println(Arrays.toString(debug));
+//            throw ex;
+//        }
+//        assert(queue.peek() == null);
     }
 
     static private void mergeSort(int[] array, int start, int end) {
