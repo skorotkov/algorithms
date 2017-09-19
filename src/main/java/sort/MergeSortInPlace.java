@@ -1,17 +1,64 @@
 package sort;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class MergeSort {
+public class MergeSortInPlace {
 
-    private static Queue<Integer> queue = new LinkedList<>();
+    static class InPlaceQueue {
+        private int start;
+        private int end;
+        private int[] array;
+
+        // get from head
+        private int head;
+        // put to tail
+        private int tail;
+
+        public InPlaceQueue(int[] array) {
+            this.array = array;
+        }
+
+        public void init(int start, int end) {
+            this.start = start;
+            this.end = end;
+            this.tail = start;
+            this.head = -1;
+        }
+
+        public int add(int n) {
+            int temp = array[tail];
+            array[tail] = n;
+            tail += 1;
+            return temp;
+        }
+
+        public int remove() {
+            int temp = array[head];
+            head += 1;
+            return temp;
+        }
+
+        public boolean isEmpty() {
+            return head == -1;
+        }
+
+        public Integer peek() {
+            if (head == -1)
+                return null;
+            else
+                return array[head];
+        }
+
+    }
+    private static InPlaceQueue queue;
 //    private static int maxQueueLength = 0;
     public static void merge(int[] array, int start, int pivot, int end) {
 //        int[] debug = Arrays.copyOfRange(array, start, end+1);
 //        assert(queue.peek() == null);
 //        try {
+
+            queue.init(pivot + 1, end);
 
             int insertPos = start;
             int highIndex = pivot + 1;
@@ -23,7 +70,7 @@ public class MergeSort {
                         array[insertPos] = queue.remove();
                         insertPos++;
                     }
-                } else if (queue.peek() == null) {
+                } else if (queue.isEmpty()) {
                     if (array[insertPos] <= array[highIndex]) {
                         insertPos++;
                     } else {
@@ -37,7 +84,7 @@ public class MergeSort {
                         }
                     }
                 } else {
-                    if (queue.element() <= array[highIndex]) {
+                    if (queue.peek() <= array[highIndex]) {
                         if (insertPos <= pivot)
                             queue.add(array[insertPos]);
                         array[insertPos] = queue.remove();
@@ -62,7 +109,7 @@ public class MergeSort {
     static private void mergeSort(int[] array, int start, int end) {
         if (end == start)
             return;
-        int pivot = start + (end - start) / 2;
+        int pivot = (start + end) / 2;
         if (end > start + 1 ) {
             mergeSort(array, start, pivot);
             mergeSort(array, pivot + 1, end);
@@ -71,6 +118,7 @@ public class MergeSort {
     }
 
     static public int[] sort(int[] array) {
+        queue = new InPlaceQueue(array);
         mergeSort(array, 0, array.length - 1);
         return array;
     }
